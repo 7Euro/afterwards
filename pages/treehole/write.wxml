@@ -1,0 +1,55 @@
+<view class="page" style="padding-top: {{statusBarHeight}}px">
+  <!-- 状态栏占位 -->
+  <view class="status-bar" style="height: {{statusBarHeight}}px"></view>
+
+  <!-- 顶部返回按钮 -->
+  <view class="nav-bar" wx:if="{{!healingQuote}}">
+    <view class="back-btn" bindtap="handleBackHome">
+      <text class="back-icon">←</text>
+      <text class="back-text">返回</text>
+    </view>
+  </view>
+
+  <!-- 正文区域 -->
+  <view class="content-area" wx:if="{{!healingQuote}}">
+    <textarea
+      class="content-textarea {{isDestroying ? 'destroying' : ''}}"
+      placeholder="在这里写下任何想说的……"
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="-1"
+      auto-focus
+      adjust-position="{{true}}"
+      cursor-spacing="20"
+      show-confirm-bar="{{false}}"
+    />
+
+    <!-- 粒子效果 -->
+    <view class="particles">
+      <view class="particle" style="top: 20%; left: 10%; animation-delay: 0s;"></view>
+      <view class="particle" style="top: 40%; left: 80%; animation-delay: 1s;"></view>
+      <view class="particle" style="top: 70%; left: 30%; animation-delay: 2s;"></view>
+      <view class="particle" style="top: 30%; left: 60%; animation-delay: 1.5s;"></view>
+      <view class="particle" style="top: 60%; left: 90%; animation-delay: 0.5s;"></view>
+    </view>
+  </view>
+
+  <!-- 销毁完成后的提示 -->
+  <view class="result-area" wx:if="{{healingQuote}}">
+    <view class="result-icon">🌿</view>
+    <text class="result-text">{{healingQuote}}</text>
+    <button class="btn btn-primary" bindtap="handleBackHome">返回首页</button>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-actions" wx:if="{{!healingQuote}}">
+    <button class="btn btn-danger" bindtap="handleBurn">
+      <text class="btn-icon">🗑</text>
+      <text class="btn-text">烧掉</text>
+    </button>
+    <button class="btn btn-primary" bindtap="handleSave">
+      <text class="btn-icon">💾</text>
+      <text class="btn-text">保存</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+<view class="page">
+  <!-- 呼吸圆圈 -->
+  <view class="breath-circle-container">
+    <view class="breath-circle" style="width: {{600}}rpx;height: {{600}}rpx;background: {{phaseColor}};transform: scale({{circleScale}});">
+      <view class="circle-content">
+        <text class="phase-text">{{phaseText}}</text>
+        <text class="countdown" wx:if="{{isRunning && countdown > 0}}">{{countdown}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提示文字 -->
+  <view class="breath-info" wx:if="{{!completed}}">
+    <text class="round-info">第 {{round}}/{{totalRounds}} 轮</text>
+    <text class="breath-tips">
+      <block wx:if="{{phase === 'inhale'}}">深呼吸,让空气充满胸腔</block>
+      <block wx:elif="{{phase === 'hold'}}">保持呼吸,感受平静</block>
+      <block wx:elif="{{phase === 'exhale'}}">慢慢呼出,释放压力</block>
+      <block wx:else>点击开始,放松身心</block>
+    </text>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-area" wx:if="{{!completed}}">
+    <button class="btn btn-primary" bindtap="toggleBreath">
+      <text wx:if="{{!isRunning}}">开始</text>
+      <text wx:else>暂停</text>
+    </button>
+  </view>
+
+  <!-- 完成状态 -->
+  <view class="completed-area" wx:if="{{completed}}">
+    <text class="completed-icon">🌿</text>
+    <text class="completed-text">感觉好点了?</text>
+    <view class="completed-actions">
+      <button class="btn btn-secondary" bindtap="restart">再来一组</button>
+      <button class="btn btn-primary" bindtap="goBack">返回</button>
+    </view>
+  </view>
+</view>

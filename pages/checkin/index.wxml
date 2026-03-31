@@ -1,0 +1,123 @@
+<view class="page">
+  <!-- 今日已打卡状态 -->
+  <view class="checked-state" wx:if="{{todayChecked && !completed}}">
+    <text class="checked-icon">✅</text>
+    <text class="checked-text">今天已经记录过了</text>
+    <button class="btn btn-secondary" bindtap="goToCalendar">查看月历</button>
+  </view>
+
+  <!-- 打卡表单 -->
+  <view class="form-container" wx:else>
+    <!-- 标题区 -->
+    <view class="title-section">
+      <text class="title">今天感觉怎么样?</text>
+      <text class="subtitle">简短记录就好,不费时间</text>
+    </view>
+
+    <!-- 情绪评分 -->
+    <view class="section">
+      <text class="section-label">情绪评分</text>
+      <view class="score-wrapper">
+        <text class="score-label score-low">😫很糟</text>
+        <slider
+          class="score-slider"
+          min="1"
+          max="10"
+          value="{{score}}"
+          activeColor="#4A90D9"
+          backgroundColor="rgba(255,255,255,0.2)"
+          block-size="24"
+          bindchange="onScoreChange"
+        />
+        <text class="score-label score-high">😊很好</text>
+      </view>
+      <text class="score-display">{{score}}分</text>
+    </view>
+
+    <!-- 情绪标签 -->
+    <view class="section">
+      <text class="section-label">情绪标签 (至少选1个,最多3个)</text>
+      <view class="tags-container">
+        <view
+          class="tag {{tagStatus['焦虑'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="焦虑"
+        >焦虑</view>
+        <view
+          class="tag {{tagStatus['疲惫'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="疲惫"
+        >疲惫</view>
+        <view
+          class="tag {{tagStatus['平静'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="平静"
+        >平静</view>
+        <view
+          class="tag {{tagStatus['开心'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="开心"
+        >开心</view>
+        <view
+          class="tag {{tagStatus['烦躁'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="烦躁"
+        >烦躁</view>
+        <view
+          class="tag {{tagStatus['迷茫'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="迷茫"
+        >迷茫</view>
+        <view
+          class="tag {{tagStatus['无力'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="无力"
+        >无力</view>
+        <view
+          class="tag {{tagStatus['期待'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="期待"
+        >期待</view>
+        <view
+          class="tag {{tagStatus['充实'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="充实"
+        >充实</view>
+        <view
+          class="tag {{tagStatus['失落'] ? 'tag-active' : ''}}"
+          bindtap="toggleTag"
+          data-tag="失落"
+        >失落</view>
+      </view>
+    </view>
+
+    <!-- 一句话备注 -->
+    <view class="section">
+      <text class="section-label">一句话说说今天 (选填)</text>
+      <textarea
+        class="note-input"
+        placeholder="简短描述一下..."
+        value="{{note}}"
+        bindinput="onNoteInput"
+        maxlength="50"
+        auto-height
+      />
+      <text class="note-count">{{note.length}}/50</text>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button class="btn btn-primary" bindtap="handleSubmit" disabled="{{isSubmitting}}">
+        <text wx:if="{{!isSubmitting}}">记录今天</text>
+        <text wx:else>记录中...</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 完成状态 -->
+  <view class="completed-state" wx:if="{{completed}}">
+    <text class="completed-icon">✓</text>
+    <text class="completed-text">记录完成</text>
+    <text class="completed-hint">明天再来看看吧</text>
+  </view>
+</view>

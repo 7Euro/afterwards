@@ -1,0 +1,94 @@
+<view class="page">
+  <!-- 月份切换 -->
+  <view class="month-nav">
+    <view class="nav-btn" bindtap="prevMonth">←</view>
+    <view class="month-text">{{currentYear}}年 {{currentMonth + 1}}月</view>
+    <view class="nav-btn" bindtap="nextMonth">→</view>
+  </view>
+
+  <!-- 回到今天按钮 -->
+  <view class="today-btn" bindtap="goToToday">
+    <text class="today-btn-icon">📍</text>
+    <text class="today-btn-text">今天</text>
+  </view>
+
+  <!-- 星期标题 -->
+  <view class="week-header">
+    <text class="week-day">日</text>
+    <text class="week-day">一</text>
+    <text class="week-day">二</text>
+    <text class="week-day">三</text>
+    <text class="week-day">四</text>
+    <text class="week-day">五</text>
+    <text class="week-day">六</text>
+  </view>
+
+  <!-- 日历格子 -->
+  <view class="calendar-grid">
+    <view
+      class="day-cell {{item.isToday ? 'today' : ''}} {{selectedDate === item.date ? 'selected' : ''}}"
+      wx:for="{{calendarDays}}"
+      wx:key="day"
+      bindtap="onDayTap"
+      data-record="{{item.record}}"
+      data-date="{{item.date}}"
+    >
+      <text class="day-number" wx:if="{{item.day}}">{{item.day}}</text>
+      <view
+        class="day-dot"
+        wx:if="{{item.hasRecord}}"
+        style="background: {{item.record.score >= 9 ? '#FF7F50' : (item.record.score >= 7 ? '#FFB347' : (item.record.score >= 4 ? '#7FB3E8' : '#4A90D9'))}}"
+      ></view>
+    </view>
+  </view>
+
+  <!-- 图例 -->
+  <view class="legend">
+    <view class="legend-item">
+      <view class="legend-dot" style="background: #4A90D9"></view>
+      <text class="legend-text">1-3分</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background: #7FB3E8"></view>
+      <text class="legend-text">4-6分</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background: #FFB347"></view>
+      <text class="legend-text">7-8分</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background: #FF7F50"></view>
+      <text class="legend-text">9-10分</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{checkinRecords.length === 0}}">
+    <text class="empty-icon">📅</text>
+    <text class="empty-text">还没有打卡记录</text>
+    <text class="empty-hint">开始记录你的情绪吧</text>
+  </view>
+</view>
+
+<!-- 详情弹窗 -->
+<view class="detail-modal" wx:if="{{showDetail}}" bindtap="closeDetail">
+  <view class="detail-content" catchtap>
+    <view class="detail-close" bindtap="closeDetail">×</view>
+
+    <view class="detail-header">
+      <text class="detail-date">{{selectedRecord.date}}</text>
+      <text class="detail-score">{{selectedRecord.score}}分</text>
+    </view>
+
+    <view class="detail-tags">
+      <view class="detail-tag" wx:for="{{selectedRecord.tags}}" wx:key="*this">
+        {{item}}
+      </view>
+    </view>
+
+    <view class="detail-note" wx:if="{{selectedRecord.note}}">
+      <text class="note-label">备注:</text>
+      <text class="note-text">{{selectedRecord.note}}</text>
+    </view>
+  </view>
+</view>

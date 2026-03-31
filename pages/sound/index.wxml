@@ -1,0 +1,56 @@
+<view class="page">
+  <!-- 标题 -->
+  <view class="header">
+    <text class="title">声音空间</text>
+    <text class="subtitle">选择喜欢的声音混合播放</text>
+  </view>
+
+  <!-- 声音网格 -->
+  <view class="sound-grid">
+    <view
+      class="sound-card {{activeSounds[item.id] ? 'playing' : ''}}"
+      wx:for="{{sounds}}"
+      wx:key="id"
+      bindtap="toggleSound"
+      data-id="{{item.id}}"
+    >
+      <view class="sound-icon">{{item.icon}}</view>
+      <text class="sound-name">{{item.name}}</text>
+      <view class="sound-status" wx:if="{{activeSounds[item.id]}}">
+        <view class="status-dot"></view>
+      </view>
+
+      <!-- 音量滑块 -->
+      <slider
+        class="volume-slider"
+        wx:if="{{activeSounds[item.id]}}"
+        min="0"
+        max="100"
+        value="{{soundVolumes[item.id]}}"
+        activeColor="#4A90D9"
+        backgroundColor="rgba(255,255,255,0.2)"
+        block-size="20"
+        bindchange="onVolumeChange"
+        bindinput="onVolumeChange"
+        data-id="{{item.id}}"
+        catchtap
+      />
+    </view>
+  </view>
+
+  <!-- 播放提示 -->
+  <view class="tips">
+    <text class="tips-text">💡 最多可同时播放3种声音</text>
+  </view>
+</view>
+
+<!-- 底部悬浮播放条 -->
+<view class="floating-bar" wx:if="{{showFloatingBar}}">
+  <view class="bar-content">
+    <view class="bar-info">
+      <text class="bar-text">正在播放</text>
+      <text class="bar-count">{{activeSoundCount}} 个声音</text>
+    </view>
+    <button class="stop-btn" bindtap="stopAllSounds">停止全部</button>
+  </view>
+</view>
